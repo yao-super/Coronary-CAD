@@ -1,0 +1,38 @@
+#
+# Source files
+#
+# Here is where you can add the name of your local classes.
+#
+
+FILE (GLOB ALL_SOURCES "*.cpp" "*.c")
+FILE (GLOB ALL_INCLUDES "*.hpp" "*.h")
+
+SET (ALL_SRCS 
+	 ${ALL_SOURCES}
+	 ${ALL_INCLUDES}
+)
+# For QT moc
+QT4_WRAP_CPP (FOO_MOC_OUTFILES vacCmprTransformer.h)
+# Create the uwiCMonitorTabSensors C++ library
+ADD_LIBRARY (vacCmprTransformer STATIC
+			 ${ALL_SRCS}
+			 ${FOO_MOC_OUTFILES} 		
+)
+
+# Add the extra link-libraries
+TARGET_LINK_LIBRARIES (vacCmprTransformer
+					   ${ITK_LIBRARIES}
+					   ${VTK_LIBRARIES}
+					   ${QT_LIBRARIES}
+					   vacPointReader
+)
+
+SET_TARGET_PROPERTIES(vacCmprTransformer PROPERTIES FOLDER "vacClass")
+
+# The installation path for the link-library
+INSTALL_TARGETS (/lib vacCmprTransformer)
+
+# The installation path for the include-files
+INSTALL (FILES ${ALL_INCLUDES} DESTINATION include)
+
+ 
